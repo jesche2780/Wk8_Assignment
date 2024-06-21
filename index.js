@@ -1,55 +1,55 @@
-// Teams and Players on those teams
-class Player {
-    constructor(name, position) {
+// Industries and Companies in those industries
+class Company {
+    constructor(name, symbol) {
         this.name = name;
-        this.position = position;
+        this.symbol = symbol;
     }
     
     describe() {
-        //console.log(`${this.name} plays ${this.position}`)
-        return `${this.name} plays ${this.position}`;
+        //console.log(`${this.name} has this symbol: ${this.symbol}`)
+        return `${this.name} has this symbol: ${this.symbol}`;
     }
 }
-class Team {
+class Industry {
     constructor(name) {
         this.name = name;
-        this.players = [];
+        this.companies = [];
     }
     
-    addPlayer(player) {
-        if (player instanceof Player) {
-            this.players.push(player);
+    addCompany(company) {
+        if (company instanceof Company) {
+            this.companies.push(company);
         } else {
-            throw new Error(`You can only add an instance of Player.
-            Argument is not a player: ${player}`);
+            throw new Error(`You can only add an instance of a company.
+            Argument is not a company: ${company}`);
         }
     }
     
     describe() {
-        return `${this.name} has ${this.players.length} players.`;
+        return `${this.name} has ${this.companies.length} companies.`;
     }
 }
 class Menu { // what drives the application and our choices
     constructor() {
-        this.teams = [];
-        this.selectedTeam = null; // manage one team at a time
+        this.Industries = [];
+        this.selectedIndustry = null; // manage one Industry at a time
     }
     
     start() { // entry point to application
         let selection = this.showMainMenuOptions(); 
         while (selection != 0) {
             switch(selection) {
-                case '1' :
-                    this.createTeam();
+                case 'A' :
+                    this.createIndustry();
                     break;
-                case '2' :
-                    this.viewTeam();
+                case 'B' :
+                    this.viewIndustry();
                     break;
-                case '3' :
-                    this.deleteTeam();
+                case 'C' :
+                    this.deleteIndustry();
                     break;
-                case '4' :
-                    this.displayTeams();
+                case 'D' :
+                    this.displayIndustries();
                     break;
                 default:
                     selection = 0;
@@ -62,76 +62,76 @@ class Menu { // what drives the application and our choices
     showMainMenuOptions() {
         return prompt(`
             0) exit
-            1) create a new team
-            2) view a team
-            3) delete a team
-            4) display all teams
+            A) create a new Industry
+            B) view a Industry
+            C) delete a Industry
+            D) display all Industries
         `);
     }
     
-    showTeamMenuOptions(teamInfo) {
+    showIndustryMenuOptions(IndustryInfo) {
         return prompt(`
             0) back
-            1) add a new player
-            2) delete a player
+            1) add a new company
+            2) delete a company
             -----------------
-            ${teamInfo}
+            ${IndustryInfo}
         `);
     }
     
-    displayTeams() {
-        let teamString = '';
-            for (let i = 0; i < this.teams.length; i++) {
-            teamString += i+ ') ' + this.teams[i].name + '\n';
+    displayIndustries() {
+        let Industriestring = '';
+            for (let i = 0; i < this.Industries.length; i++) {
+            Industriestring += i+ ') ' + this.Industries[i].name + '\n';
             }
-        alert(teamString);
+        alert(Industriestring);
     }
     
-    createTeam() {
-        let name = prompt('Enter name for new team: ');
-        this.teams.push(new Team(name));
+    createIndustry() {
+        let name = prompt('Enter name for new Industry: ');
+        this.Industries.push(new Industry(name));
     }
     
-    viewTeam() {
-        let index = prompt("Enter the index of the team that you want to view:");
-        if (index > -1 && index < this.teams.length) {
-            this.selectedTeam = this.teams[index];
-            let description = 'Team Name: ' + this.selectedTeam.name + '\n';
-            description += ' ' + this.selectedTeam.describe() + '\n ';
-            for (let i = 0; i < this.selectedTeam.players.length; i++) {
-                // description += i + ') ' + this.selectedTeam.players[i].name + ' - '
-                // + this.selectedTeam.players[i].position + '\n';
-                description += i + ') ' + this.selectedTeam.players[i].describe() + '\n';
+    viewIndustry() {
+        let index = prompt("Enter the index of the Industry that you want to view:");
+        if (index > -1 && index < this.Industries.length) {
+            this.selectedIndustry = this.Industries[index];
+            let description = 'Industry Name: ' + this.selectedIndustry.name + '\n';
+            description += ' ' + this.selectedIndustry.describe() + '\n ';
+            for (let i = 0; i < this.selectedIndustry.companies.length; i++) {
+                // description += i + ') ' + this.selectedIndustry.companies[i].name + ' - '
+                // + this.selectedIndustry.companies[i].symbol + '\n';
+                description += i + ') ' + this.selectedIndustry.companies[i].describe() + '\n';
                 }
-            let selection1 = this.showTeamMenuOptions(description);
+            let selection1 = this.showIndustryMenuOptions(description);
             switch (selection1) {
                 case '1' :
-                this.createPlayer();
+                this.createcompany();
                 break;
                 case '2' :
-                this.deletePlayer();
+                this.deletecompany();
             }
         } // validate user input
     }
     
-    deleteTeam() {
-        let index = prompt('Enter the index of the team that you wish to delete: ');
-        if (index > -1 && index < this.teams.length) {
-            this.teams.splice(index,1);
+    deleteIndustry() {
+        let index = prompt('Enter the index of the Industry that you wish to delete: ');
+        if (index > -1 && index < this.Industries.length) {
+            this.Industries.splice(index,1);
         }
     }
     
     
-    createPlayer() {
-        let name = prompt('Enter name for new player: ');
-        let position = prompt('Enter position for new player: ');
-        //this.selectedTeam.players.push(new Player(name, position));
-        this.selectedTeam.addPlayer(new Player(name,position));
+    createcompany() {
+        let name = prompt('Enter name for new company: ');
+        let symbol = prompt('Enter symbol for new company: ');
+        //this.selectedIndustry.companies.push(new company(name, symbol));
+        this.selectedIndustry.addcompany(new Company(name,symbol));
     }
     
-    deletePlayer() {
-        let index = prompt('Enter the index of the player that you wish to delete: ');
-        if (index > -1 && index < this.selectedTeam.players.length) { this.selectedTeam.players.splice(index,1);
+    deletecompany() {
+        let index = prompt('Enter the index of the company that you wish to delete: ');
+        if (index > -1 && index < this.selectedIndustry.companies.length) { this.selectedIndustry.companies.splice(index,1);
         }
     }
     }
